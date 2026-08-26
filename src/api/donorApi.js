@@ -25,3 +25,9 @@ export const suspendUser=(userId)=>
 
 export const getAdminUserDetails = (userId) =>
   axiosWithCreds.get(`/api/donors/users/${userId}`)
+
+export const  getNearByDonors=(data)=>
+  axiosWithCreds.get("/api/donors/nearby-donors",data)
+
+export const sendWhatsappSms = async ({ donorId, distance }) =>
+  axiosWithCreds.post(`/api/donors/${donorId}/send`, { distance });

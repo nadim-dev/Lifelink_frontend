@@ -1,16 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { useOutletContext } from "react-router-dom";
-import {
-  AlertTriangle,
-  BrainCircuit,
-  CheckCircle2,
-  CircleAlert,
-  Droplet,
-  Lightbulb,
-  LoaderCircle,
-  ShieldCheck,
-  TrendingUp,
-} from "lucide-react";
+import {AlertTriangle,BrainCircuit,CheckCircle2,CircleAlert,Droplet,Lightbulb,LoaderCircle,ShieldCheck,TrendingUp} from "lucide-react";
 import { bloodDemandPredictionAPI } from "../../api/bloodBankApi.js";
 
 const riskStyles = {

@@ -43,7 +43,10 @@ import { MyDeliveries } from "./pages/Delivery_Partnet/MyDeliveries.jsx";
 import { TrackingUserOrder } from "./pages/UserTarckingPage.jsx";
 import { RegisteredUsers } from "./pages/Admin/MontinoritngUsrers.jsx";
 import { AIdemandPrediction } from "./pages/Blood_Bank/AIdemandPrediction.jsx";
-
+import { NearByDonor } from "./pages/NearByDonors.jsx";
+import { DoctorPage } from "./pages/Hospital/Doctors.jsx";
+import { AddDoctor } from "./pages/Hospital/AddDoctor.jsx";
+import { ServiceAndFacility } from "./pages/Hospital/Service&Facility.jsx";
 function ProtectedLayout() {
   console.log("Protected layout function is running");
   const {currentUser, authLoading } = useAuth();
@@ -262,10 +265,21 @@ const router=createBrowserRouter([
                 path:"/nearby-blood-banks",
                 element:<BloodBankPage/>,
              },
-             
              {
-                path:"/settings",
-                element:<DashboardPlaceholder title="Settings" description="Control dashboard preferences and account settings." />,
+               path:"/hospital/doctors",
+               element:<DoctorPage/>
+             },
+             {
+               path:"/hospital/doctors/add",
+               element:<AddDoctor/>
+             },
+             {
+               path:"/hospital/services",
+               element:<ServiceAndFacility/>
+             },
+             {
+               path:"/nearby-donors",
+               element:<NearByDonor />
              },
              {
                path:"/my-deliveries",

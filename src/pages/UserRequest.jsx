@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { Building2, CalendarDays, ClipboardList, Clock3, Copy, Droplet, LoaderCircle, MapPin, MoreVertical, PackageCheck, Truck, XCircle } from "lucide-react";
+import { Building2, CalendarDays, ClipboardList, Clock3, Copy, Droplet, Eye, LoaderCircle, MapPin, MoreVertical, PackageCheck, Truck, XCircle } from "lucide-react";
 import { Link, useOutletContext } from "react-router-dom";
 import { cancelMyBloodRequest, getMyBloodRequests } from "../api/bloodBankApi.js";
 import { formatTicketDate } from "../utils/dateCustomization.js";
@@ -161,8 +161,8 @@ function RequestCard({ request, isCancelling, onCancel }) {
         <div className="mt-4 flex flex-col gap-2 border-t border-slate-100 pt-3 sm:flex-row sm:items-center sm:justify-between">
           <p className="text-xs font-bold text-slate-500">{getStatusText(request)}</p>
           <Link to={`/my-requests/${request._id}`} className="inline-flex h-9 items-center justify-center gap-1.5 rounded-lg bg-red-600 px-4 text-xs font-black text-white shadow-[0_10px_22px_rgba(220,38,38,0.2)] transition hover:bg-red-700">
-            <Truck className="size-4" />
-            Track Request
+            {request.requestStatus === "Completed" ? <Eye className="size-4" /> : <Truck className="size-4" />}
+            {request.requestStatus === "Completed" ? "View Details" : "Track Request"}
           </Link>
         </div>
       </div>
@@ -171,7 +171,7 @@ function RequestCard({ request, isCancelling, onCancel }) {
 }
 
 export const UsersAllRequest = () => {
-  const { setHeaderContent } = useOutletContext();
+  const { setHeaderContent, deliveryPartnerSocket } = useOutletContext();
   const [requests, setRequests] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [cancellingRequestId, setCancellingRequestId] = useState("");
@@ -201,6 +201,26 @@ export const UsersAllRequest = () => {
 
     fetchRequests();
   }, []);
+
+  useEffect(() => {
+    if (!deliveryPartnerSocket) return undefined;
+
+    const handleBloodRequestStatusUpdated = (payload) => {
+      const requestId = payload?.requestId || payload?.bloodRequest?._id;
+      if (!requestId) return;
+
+      setRequests((currentRequests) =>
+        currentRequests.map((request) =>
+          request._id === requestId
+            ? payload.bloodRequest || { ...request, requestStatus: payload.requestStatus }
+            : request,
+        ),
+      );
+    };
+
+    deliveryPartnerSocket.on("bloodRequestStatusUpdated", handleBloodRequestStatusUpdated);
+    return () => deliveryPartnerSocket.off("bloodRequestStatusUpdated", handleBloodRequestStatusUpdated);
+  }, [deliveryPartnerSocket]);
 
   const sortedRequests = useMemo(
     () => [...requests].sort((first, second) => new Date(second.createdAt) - new Date(first.createdAt)),

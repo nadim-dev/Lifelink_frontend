@@ -416,8 +416,6 @@ export const ProfilePage = () => {
 
   return (
     <div className="space-y-5 py-4">
-      {shouldShowDonorCta ? <BecomeDonorCta /> : null}
-
       <section className="overflow-hidden rounded-lg border border-zinc-200 bg-white shadow-sm">
         <div className="bg-zinc-50 px-5 py-5 sm:px-7">
           <div className="flex flex-col gap-5 sm:flex-row sm:items-center">
@@ -583,6 +581,8 @@ export const ProfilePage = () => {
           )}
         </div>
       </form>
+
+      {shouldShowDonorCta ? <BecomeDonorCta /> : null}
 
       {user?.isDonor ? (
         <DonorInformationCard

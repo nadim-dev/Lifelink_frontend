@@ -1,7 +1,7 @@
-import {Bell,CircleAlert,Building2,BrainCircuit,Wallet,UsersRound,PackageCheck,Cross,Bike,CircleHelp,ClipboardList,Droplet,Droplets,Hospital,Inbox,LayoutDashboard,MessageSquareText,Settings,Siren,Ticket} from "lucide-react";
+import {Bell,CircleAlert,Stethoscope,Building2,BrainCircuit,Wallet,UsersRound,PackageCheck,Cross,Bike,CircleHelp,ClipboardList,Droplet,Droplets,Hospital,Inbox,LayoutDashboard,MessageSquareText,Settings,Siren,Ticket} from "lucide-react";
 import { useAuth } from "./useAuth";
 import { getDashboardPath } from "../utils/dashboardRoutes";
-
+import { CalendarDays } from "lucide-react";
 
 const menuItems = [
   {
@@ -12,18 +12,12 @@ const menuItems = [
   {
     title: "My Requests",
     icon: ClipboardList,
-    href: "/my-requests"
+    href: "/my-requests",
   },
   {
-    title: "My Tickets",
-    icon: Ticket,
-    href: "/my-tickets",
-    show: (user) => user.role !== "Admin" && user.role !== "BloodBank",
-  },
-  {
-    title: "Nearby Hospitals",
-    icon: Hospital,
-    href: "/nearby-hospitals",
+    title: "Nearby Donors",
+    icon: UsersRound,
+    href: "/nearby-donors",
   },
   {
     title: "Nearby Blood Banks",
@@ -31,9 +25,9 @@ const menuItems = [
     href: "/nearby-blood-banks",
   },
   {
-    title:"Nearby Donors",
-    icon: UsersRound,
-    href:"/nearby-donors"
+    title: "Nearby Hospitals",
+    icon: Hospital,
+    href: "/nearby-hospitals",
   },
   {
     title: "Notifications",
@@ -41,15 +35,15 @@ const menuItems = [
     href: "/notifications",
   },
   {
-    title: "Settings",
-    icon: Settings,
-    href: "/settings",
+    title: "My Tickets",
+    icon: Ticket,
+    href: "/my-tickets",
   },
   {
     title: "Help & Support",
     icon: CircleHelp,
     href: "/support",
-  },
+  }
 ];
 
 const bloodBankMenuItems = [
@@ -176,6 +170,66 @@ const DeliveryPartnerMenuItems=[
   },
 ]; 
 
+const HospitalMenuItems=[
+  {
+    title: "Dashboard",
+    icon: LayoutDashboard,
+    href: (user) => getDashboardPath(user.role),
+  },
+  
+  {
+  title: "Appointments",
+  icon: CalendarDays,
+  href: "/hospital/appointments",
+  },
+  {
+    title: "My Requests",
+    icon: ClipboardList,
+    href: "/my-requests",
+  },
+   {
+    title: "Doctors",
+    icon: Stethoscope,
+    href: "/hospital/doctors",
+  },
+    {
+
+    title: "Services & Facilities",
+
+    icon: Building2,
+
+    href: "/hospital/services",
+
+  },
+  {
+    title: "Nearby Donors",
+    icon: UsersRound,
+    href: "/nearby-donors",
+  },
+  {
+    title: "Nearby Blood Banks",
+    icon: Droplets,
+    href: "/nearby-blood-banks",
+  },
+  {
+    title: "Notifications",
+    icon: Bell,
+    href: "/notifications",
+  },
+  {
+    title: "My Tickets",
+    icon: Ticket,
+    href: "/my-tickets",
+    show: (user) =>
+      user.role !== "Admin" && user.role !== "BloodBank",
+  },
+  {
+    title: "Help & Support",
+    icon: CircleHelp,
+    href: "/support",
+  },
+]
+
 
 const getDisplayLocation = (currentUser) => {
   if (currentUser?.short_address) return currentUser.short_address;
@@ -204,7 +258,7 @@ export const useDashboard = () => {
       ? bloodBankMenuItems
       : user.role === "Admin"
         ? adminMenuItems
-        : user.role == "DeliveryPartner" ?  DeliveryPartnerMenuItems  : menuItems;
+        : user.role == "DeliveryPartner" ?  DeliveryPartnerMenuItems  : user.role == "Hospital" ? HospitalMenuItems:menuItems;
 
   const userMenu = roleMenuItems
     .filter((item) => !item.show || item.show(user))

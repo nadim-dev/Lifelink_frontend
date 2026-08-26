@@ -300,7 +300,7 @@ function DeliveryDetailsModal({ activeDelivery, status, onClose }) {
   );
 }
 
-function ActiveDeliveryCard({ activeDelivery, deliveryRequest }) {
+function ActiveDeliveryCard({ activeDelivery, deliveryRequest, onCompleted }) {
   const [showDetails, setShowDetails] = useState(false);
   const [isStartingJourney, setIsStartingJourney] = useState(false);
   const [deliveryStatus, setDeliveryStatus] = useState(activeDelivery.deliveryStatus);
@@ -481,7 +481,7 @@ function ActiveDeliveryCard({ activeDelivery, deliveryRequest }) {
           <PaymentDetailsModel
             setShowPaymentModel={setShowPaymentModel}
             activeDelivery={activeDelivery}
-            onConfirmed={() => setDeliveryStatus("Delivered")}
+            onConfirmed={onCompleted}
           />
         )
       }
@@ -563,6 +563,17 @@ export const MyDeliveries = () => {
   const deliveryRequest = activeRequestDetails?.deliveryRequest;
   const activeCount = activeDelivery ? 1 : 0;
 
+  const handleDeliveryCompleted = async () => {
+    setActiveRequestDetails(null);
+
+    try {
+      const completedData = await getCompletedDeliveries();
+      setCompletedDeliveries(completedData.completedDeliveries || []);
+    } catch (err) {
+      setError(err.message || "Delivery was completed, but completed deliveries could not be refreshed.");
+    }
+  };
+
   const tabs = useMemo(
     () => [
       { label: `Active (${activeCount})`, active: true },
@@ -602,7 +613,11 @@ export const MyDeliveries = () => {
       )}
 
       {!isLoading && !error && activeTab === "active" && activeDelivery && (
-        <ActiveDeliveryCard activeDelivery={activeDelivery} deliveryRequest={deliveryRequest} />
+        <ActiveDeliveryCard
+          activeDelivery={activeDelivery}
+          deliveryRequest={deliveryRequest}
+          onCompleted={handleDeliveryCompleted}
+        />
       )}
 
       {!isLoading && !error && activeTab === "completed" && completedDeliveries.length > 0 && completedDeliveries.map((delivery) => (

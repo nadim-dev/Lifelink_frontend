@@ -1,4 +1,5 @@
 import { axiosWithCreds,axiosWithoutCreds } from "./axiosInstances";
+import { compressImage } from "../utils/compressImage";
 
 export const registerApi=(userData)=> axiosWithoutCreds.post("/api/auth/register",userData);
 
@@ -8,9 +9,9 @@ export const currentUserApi=()=> axiosWithCreds.get("/api/auth/me");
 
 export const updateProfileApi=(profileData)=> axiosWithCreds.patch("/api/auth/profile",profileData);
 
-export const updateProfilePictureApi=(file)=> {
+export const updateProfilePictureApi=async (file)=> {
   const formData = new FormData();
-  formData.append("picture", file);
+  formData.append("picture", await compressImage(file), file.name.replace(/\.[^.]+$/, ".jpg"));
 
   return axiosWithCreds.patch("/api/auth/profile-picture", formData, {
     headers: {
@@ -31,4 +32,3 @@ export const logoutApi=()=>axiosWithCreds.post("/api/auth/logout");
 
 export const loginWithGoogle = async (id_token) =>
   axiosWithCreds.post("/api/auth/google-login", { id_token });
-

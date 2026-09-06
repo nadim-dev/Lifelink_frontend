@@ -47,6 +47,10 @@ import { NearByDonor } from "./pages/NearByDonors.jsx";
 import { DoctorPage } from "./pages/Hospital/Doctors.jsx";
 import { AddDoctor } from "./pages/Hospital/AddDoctor.jsx";
 import { ServiceAndFacility } from "./pages/Hospital/Service&Facility.jsx";
+import { HospitalProfile } from "./pages/Hospital/HospitalProfile.jsx";
+import { AdminDashbaordDetails } from "./pages/Admin/AdminDashbaord.jsx";
+
+
 function ProtectedLayout() {
   console.log("Protected layout function is running");
   const {currentUser, authLoading } = useAuth();
@@ -231,7 +235,7 @@ const router=createBrowserRouter([
              },
              {
                 path:"/admin/dashboard",
-                element:<UserDashBoard />,
+                element:<AdminDashbaordDetails />,
              },
              {
                path:"/admin/enquiries",
@@ -276,6 +280,10 @@ const router=createBrowserRouter([
              {
                path:"/hospital/services",
                element:<ServiceAndFacility/>
+             },
+             {
+               path:"/hospital/profile",
+               element:<HospitalProfile/>
              },
              {
                path:"/nearby-donors",

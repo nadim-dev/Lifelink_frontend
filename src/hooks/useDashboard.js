@@ -170,36 +170,31 @@ const DeliveryPartnerMenuItems=[
   },
 ]; 
 
-const HospitalMenuItems=[
+const HospitalMenuItems = [
   {
     title: "Dashboard",
     icon: LayoutDashboard,
     href: (user) => getDashboardPath(user.role),
   },
-  
   {
-  title: "Appointments",
-  icon: CalendarDays,
-  href: "/hospital/appointments",
+    title: "Appointments",
+    icon: CalendarDays,
+    href: "/hospital/appointments",
+  },
+  {
+    title: "Doctors",
+    icon: Stethoscope,
+    href: "/hospital/doctors",
+  },
+  {
+    title: "Services & Facilities",
+    icon: Building2,
+    href: "/hospital/services",
   },
   {
     title: "My Requests",
     icon: ClipboardList,
     href: "/my-requests",
-  },
-   {
-    title: "Doctors",
-    icon: Stethoscope,
-    href: "/hospital/doctors",
-  },
-    {
-
-    title: "Services & Facilities",
-
-    icon: Building2,
-
-    href: "/hospital/services",
-
   },
   {
     title: "Nearby Donors",
@@ -217,18 +212,21 @@ const HospitalMenuItems=[
     href: "/notifications",
   },
   {
-    title: "My Tickets",
+    title: "Hospital Profile",
+    icon: Hospital,
+    href: "/hospital/profile",
+  },
+  {
+    title: "My Issues",
     icon: Ticket,
     href: "/my-tickets",
-    show: (user) =>
-      user.role !== "Admin" && user.role !== "BloodBank",
   },
   {
     title: "Help & Support",
     icon: CircleHelp,
     href: "/support",
   },
-]
+];
 
 
 const getDisplayLocation = (currentUser) => {

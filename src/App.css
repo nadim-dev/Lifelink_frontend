@@ -182,3 +182,29 @@
     border-right-color: var(--border);
   }
 }
+section .w-1\.5.rounded-t {
+  display: block;
+}
+
+section .flex.h-32.items-end.justify-center.gap-3 {
+  height: 8rem;
+  margin-inline: auto;
+  max-width: none;
+  gap: 2.5rem !important;
+}
+
+section .flex.h-32.items-end.justify-center.gap-3 > div {
+  width: 100% !important;
+  justify-content: space-evenly !important;
+  gap: 0 !important;
+}
+
+section .flex.h-32.items-end.justify-center.gap-3 > div > div.flex.h-full.flex-col.items-center.justify-end {
+  margin-inline: 3rem !important;
+}
+
+select:focus {
+  outline: none;
+  border-color: #fecaca;
+  box-shadow: 0 0 0 2px #fef2f2;
+}

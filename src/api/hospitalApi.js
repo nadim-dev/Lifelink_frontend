@@ -16,6 +16,8 @@ export const getHospitals = () =>
 
 export const getHospitalById = (hospitalId) =>
   axiosWithCreds.get(`/api/hospitals/${hospitalId}`);
+export const getMyHospitalProfile = () => axiosWithCreds.get("/api/hospitals/me/profile");
+export const updateMyHospitalProfile = (data) => axiosWithCreds.patch("/api/hospitals/me/profile/details", data);
 
 export const getPublicHospitalById = (hospitalId) =>
   axiosWithCreds.get(`/api/hospitals/public/${hospitalId}`);
@@ -54,3 +56,13 @@ export const updateDoctor = async (doctorId, data, profileImage) => {
   if (profileImage instanceof File) formData.append("profileImage", await compressImage(profileImage), profileImage.name.replace(/\.[^.]+$/, ".jpg"));
   return axiosWithCreds.patch(`/api/hospitals/doctors/${doctorId}`, formData);
 };
+
+export const createServiceFacility = async (data, image) => {
+  const formData = new FormData();
+  Object.entries(data).forEach(([key, value]) => formData.append(key, value ?? ""));
+  if (image instanceof File) formData.append("image", await compressImage(image), image.name.replace(/\.[^.]+$/, ".jpg"));
+  return axiosWithCreds.post("/api/hospitals/services-facilities", formData);
+};
+export const getHospitalServicesFacilities = () => axiosWithCreds.get("/api/hospitals/services-facilities");
+export const deleteServiceFacility = (id) => axiosWithCreds.delete(`/api/hospitals/services-facilities/${id}`);
+export const updateServiceFacility = (id, data) => axiosWithCreds.patch(`/api/hospitals/services-facilities/${id}`, data);

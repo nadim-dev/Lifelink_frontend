@@ -98,7 +98,7 @@ export default function DashboardLayout() {
             leftContent={hideSidebar ? donorHeaderBrand : null}
             unreadNotificationCount={unreadNotificationCount}
           />
-          <div className="min-h-0 flex-1 overflow-y-auto">
+          <div className="min-h-0 flex-1 overflow-y-auto pt-3 sm:pt-4">
             <Outlet context={{ user, setHeaderContent,unreadNotificationCount, setUnreadNotificationCount, deliveryPartnerSocket}} />
           </div>
         </section>

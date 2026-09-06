@@ -7,6 +7,7 @@ import { getHospitalById, updateHospitalStatus } from "../../api/hospitalApi";
 import { formatDateOnly, formatTicketDate } from "../../utils/dateCustomization";
 import "leaflet/dist/leaflet.css";
 
+
 const statusClass = {
   pending: "bg-orange-50 text-orange-700 ring-orange-200",
   approved: "bg-emerald-50 text-emerald-700 ring-emerald-200",
@@ -115,14 +116,13 @@ function DetailButton({ children, tone = "neutral", ...props }) {
 
 function HospitalSummary({ hospital }) {
   return (
-    <SectionCard title="Hospital Summary" icon={Hospital}>
+    <SectionCard title="Hospital Information" icon={Hospital}>
       <InfoGrid
-        className="lg:grid-cols-4"
+        className="lg:grid-cols-3"
         items={[
-          { label: "Email", value: hospital.email },
-          { label: "Phone Number", value: hospital.phone },
+          { label: "Hospital Name", value: hospital.name },
           { label: "Hospital Type", value: formatLabel(hospital.hospitalType) },
-          { label: "Registration Date", value: hospital.registeredOn },
+          { label: "Registration Number", value: hospital.registrationNumber },
         ]}
       />
     </SectionCard>
@@ -353,7 +353,11 @@ export const AdminHospitalDetails = () => {
       <div className="w-full space-y-3">
         <section className="rounded-xl border border-slate-200 bg-white px-4 py-3.5 shadow-[0_10px_28px_rgba(15,23,42,0.06)]">
           <div className="flex flex-col gap-3 lg:flex-row lg:items-start lg:justify-between">
-            <div className="min-w-0">
+            <div className="flex min-w-0 items-center gap-3">
+              <div className="grid size-14 shrink-0 place-items-center rounded-full border border-slate-200 bg-emerald-50 text-emerald-700">
+                <Hospital className="size-7" />
+              </div>
+              <div className="min-w-0">
               <Link to="/admin/hospitals" className="mb-2 inline-flex items-center gap-1.5 text-xs font-extrabold text-slate-500 transition hover:text-[#D90429]">
                 <ArrowLeft className="size-3.5" />
                 Back to hospitals
@@ -368,9 +372,14 @@ export const AdminHospitalDetails = () => {
                   {formatLabel(hospital.hospitalType)}
                 </span>
                 <span className="inline-flex items-center gap-1.5">
+                  <FileText className="size-3.5" />
+                  Registration: {hospital.registrationNumber}
+                </span>
+                <span className="inline-flex items-center gap-1.5">
                   <CalendarDays className="size-3.5" />
                   Registered: {hospital.registeredOn}
                 </span>
+              </div>
               </div>
             </div>
           </div>
@@ -385,18 +394,28 @@ export const AdminHospitalDetails = () => {
 
         <HospitalSummary hospital={hospital} />
 
-        <SectionCard title="Authorized Contact" icon={UserRound}>
+        <SectionCard title="Contact Information" icon={Phone}>
           <InfoGrid
-            className="lg:grid-cols-3"
+            className="lg:grid-cols-2"
             items={[
-              { label: "Contact Name", value: hospital.contactName },
-              { label: "Contact Number", value: hospital.contactPhone },
-              { label: "Contact Email", value: hospital.contactEmail },
+              { label: "Phone Number", value: hospital.phone },
+              { label: "Email Address", value: hospital.email },
             ]}
           />
         </SectionCard>
 
-        <SectionCard title="Hospital Address & Location" icon={MapPin}>
+        <SectionCard title="Contact Person" icon={UserRound}>
+          <InfoGrid
+            className="lg:grid-cols-3"
+            items={[
+              { label: "Name", value: hospital.contactName },
+              { label: "Phone Number", value: hospital.contactPhone },
+              { label: "Email Address", value: hospital.contactEmail },
+            ]}
+          />
+        </SectionCard>
+
+        <SectionCard title="Address & Location" icon={MapPin}>
           <div className="grid gap-3 xl:grid-cols-[minmax(360px,0.85fr)_minmax(0,1.15fr)]">
             <InfoGrid
               className="lg:grid-cols-2"

@@ -214,9 +214,9 @@ export const AdminDashbaordDetails = () => {
           <SummaryBox
             title="Enquiries"
             rows={[
-              ["New Enquiries", enquiryStats.newEnquiries || 0, "red"],
-              ["This Week", enquiryStats.thisWeek || 0, "blue"],
-              ["This Month", enquiryStats.thisMonth || 0, "green"],
+              ["Total Enquiries", enquiryStats.total || 0, "red"],
+              ["Replied", enquiryStats.replied || 0, "blue"],
+              ["Not Replied", enquiryStats.notReplied || 0, "green"],
             ]}
             onClick={() => navigate("/admin/enquiries")}
           />

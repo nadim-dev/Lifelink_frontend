@@ -1,7 +1,8 @@
-import {Bell,CircleAlert,Stethoscope,Building2,BrainCircuit,Wallet,UsersRound,PackageCheck,Cross,Bike,CircleHelp,ClipboardList,Droplet,Droplets,Hospital,Inbox,LayoutDashboard,MessageSquareText,Settings,Siren,Ticket} from "lucide-react";
+import {Bell,CircleAlert,BedDouble,Stethoscope,Building2,BrainCircuit,Wallet,UsersRound,PackageCheck,Cross,Bike,CircleHelp,ClipboardList,Droplet,Droplets,Hospital,Inbox,LayoutDashboard,MessageSquareText,Settings,Siren,Ticket} from "lucide-react";
 import { useAuth } from "./useAuth";
 import { getDashboardPath } from "../utils/dashboardRoutes";
 import { CalendarDays } from "lucide-react";
+
 
 const menuItems = [
   {
@@ -192,7 +193,7 @@ const HospitalMenuItems = [
     href: "/hospital/services",
   },
   {
-    title: "My Requests",
+    title: "Blood Request",
     icon: ClipboardList,
     href: "/my-requests",
   },
@@ -200,6 +201,11 @@ const HospitalMenuItems = [
     title: "Nearby Donors",
     icon: UsersRound,
     href: "/nearby-donors",
+  },
+  {
+    title:"Capacity & Availability",
+    icon:BedDouble,
+    href:"/capacity-availability"
   },
   {
     title: "Nearby Blood Banks",

@@ -1,17 +1,18 @@
 import { ChevronRight, Droplet, LogOut } from "lucide-react";
 import { NavLink } from "react-router-dom";
 import getInitials from "../utils/getInitial";
+import logo from "../assets/image.png";
 
-export default function Sidebar({ user,unreadNotificationCount, passUserMenu = [] }) {
+export default function Sidebar({user,passUserMenu = [] }) {
   return (
     <aside className="hidden w-[238px] shrink-0 bg-[linear-gradient(180deg,#8f0000_0%,#b80d12_48%,#860000_100%)] p-3 text-white lg:flex lg:flex-col">
       <div className="flex items-center gap-2 px-1 py-2">
-        <div className="flex size-10 items-center justify-center rounded-xl border border-white/20 bg-white/12 shadow-lg shadow-black/10">
-          <Droplet className="size-6 fill-white text-white" />
-        </div>
+        
+        <img className="w-8 h-8" src={logo} />
+         
         <div>
-          <p className="text-xl font-extrabold leading-6 tracking-tight">BIT</p>
-          <p className="text-xs font-medium text-white/75">Blood In Time</p>
+          <p className="text-xl font-extrabold leading-6 tracking-tight">LIFELINK</p>
+          <p className="text-xs font-medium text-white/75">Connecting Every Link in Healthcare</p>
         </div>
       </div>
 

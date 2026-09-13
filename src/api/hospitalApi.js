@@ -18,6 +18,8 @@ export const getHospitalById = (hospitalId) =>
   axiosWithCreds.get(`/api/hospitals/${hospitalId}`);
 export const getMyHospitalProfile = () => axiosWithCreds.get("/api/hospitals/me/profile");
 export const updateMyHospitalProfile = (data) => axiosWithCreds.patch("/api/hospitals/me/profile/details", data);
+export const updateMyEmergencyStatus = (emergencyStatus) => axiosWithCreds.patch("/api/hospitals/me/capacity/emergency-status", { emergencyStatus });
+export const updateMyCapacityBed = (data) => axiosWithCreds.patch("/api/hospitals/me/capacity/bed", data);
 
 export const getPublicHospitalById = (hospitalId) =>
   axiosWithCreds.get(`/api/hospitals/public/${hospitalId}`);

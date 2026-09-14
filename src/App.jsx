@@ -53,7 +53,7 @@ import { HospitalDashboard } from "./pages/Hospital/HospitalDashbaord.jsx";
 import { HospitalCapacityAvailability } from "./pages/Hospital/HospitalCapacityAvailability.jsx";
 import { HospitalPageView } from "./pages/UserHospitalDashboard.jsx";
 import MyAppointments from "./pages/MyAppointments.jsx";
-
+import { HospitalAppointments } from "./pages/Hospital/HospitalAppointments.jsx";
 
 function ProtectedLayout() {
   console.log("Protected layout function is running");

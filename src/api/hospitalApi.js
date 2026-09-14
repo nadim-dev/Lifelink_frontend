@@ -17,6 +17,7 @@ export const getHospitals = () =>
 export const getHospitalById = (hospitalId) =>
   axiosWithCreds.get(`/api/hospitals/${hospitalId}`);
 export const getMyHospitalProfile = () => axiosWithCreds.get("/api/hospitals/me/profile");
+export const getMyHospitalDashboardSummary = () => axiosWithCreds.get("/api/hospitals/me/dashboard-summary");
 export const updateMyHospitalProfile = (data) => axiosWithCreds.patch("/api/hospitals/me/profile/details", data);
 export const updateMyEmergencyStatus = (emergencyStatus) => axiosWithCreds.patch("/api/hospitals/me/capacity/emergency-status", { emergencyStatus });
 export const updateMyCapacityBed = (data) => axiosWithCreds.patch("/api/hospitals/me/capacity/bed", data);

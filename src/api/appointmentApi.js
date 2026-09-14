@@ -6,6 +6,9 @@ export const BookAppointment=(doctorId)=>
 export const GetMyAppointments = () =>
     axiosWithCreds.get("/api/appointments/my-appointments");
 
+export const GetMyAppointmentHistory = () =>
+    axiosWithCreds.get("/api/appointments/my-appointment-history");
+
 export const GetHospitalAppointments = (range = "today") =>
     axiosWithCreds.get(`/api/appointments/hospital-appointments?range=${range}`);
 

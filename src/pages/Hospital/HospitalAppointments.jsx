@@ -133,19 +133,19 @@ export const HospitalAppointments = () => {
             ({ label, value, icon: Icon, iconClass, iconBg }) => (
               <article
                 key={label}
-                className="rounded-2xl border border-slate-200 bg-white p-5 shadow-[0_8px_24px_rgba(15,23,42,0.05)] transition hover:-translate-y-0.5 hover:border-red-100 hover:shadow-[0_12px_28px_rgba(15,23,42,0.08)]"
+                className="rounded-2xl border border-slate-200 bg-white p-4 shadow-[0_8px_24px_rgba(15,23,42,0.05)] transition hover:-translate-y-0.5 hover:border-red-100 hover:shadow-[0_12px_28px_rgba(15,23,42,0.08)]"
               >
                 <div className="flex items-center justify-between gap-3">
                   <p className="text-base font-extrabold text-slate-600">
                     {label}
                   </p>
                   <span
-                    className={`grid size-11 place-items-center rounded-2xl ${iconBg}`}
+                    className={`grid size-10 place-items-center rounded-2xl ${iconBg}`}
                   >
-                    <Icon className={`size-6 ${iconClass}`} />
+                    <Icon className={`size-5 ${iconClass}`} />
                   </span>
                 </div>
-                <p className="mt-5 text-3xl font-extrabold tracking-tight text-slate-950">
+                <p className="mt-3 text-3xl font-extrabold tracking-tight text-slate-950">
                   {value}
                 </p>
               </article>

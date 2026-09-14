@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { Building2, CalendarDays, ClipboardList, Clock3, Copy, Droplet, Eye, LoaderCircle, MapPin, MoreVertical, PackageCheck, Truck, XCircle } from "lucide-react";
+import { Building2, CalendarDays, CheckCircle2, ClipboardList, Clock3, Copy, Droplet, Eye, LoaderCircle, MapPin, MoreVertical, PackageCheck, Truck, XCircle } from "lucide-react";
 import { Link, useOutletContext } from "react-router-dom";
 import { cancelMyBloodRequest, getMyBloodRequests } from "../api/bloodBankApi.js";
 import { formatTicketDate } from "../utils/dateCustomization.js";
@@ -59,6 +59,9 @@ const getProgressPercent = (request) => {
   if (request.requestStatus === "Rejected" || request.requestStatus === "Cancelled") return 100;
   return Math.min(100, Math.max(25, completedCount * 25));
 };
+
+const isCompletedRequest = (request) =>
+  request.requestStatus === "Completed" || request.deliveryStatus === "Delivered";
 
 function RequestSummaryPill({ icon: Icon, tone, label, value }) {
   return (
@@ -176,6 +179,7 @@ export const UsersAllRequest = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [cancellingRequestId, setCancellingRequestId] = useState("");
   const [error, setError] = useState("");
+  const [activeStatus, setActiveStatus] = useState("in-progress");
 
   useEffect(() => {
     setHeaderContent({
@@ -227,6 +231,11 @@ export const UsersAllRequest = () => {
     [requests],
   );
 
+  const filteredRequests = useMemo(
+    () => sortedRequests.filter((request) => activeStatus === "completed" ? isCompletedRequest(request) : !isCompletedRequest(request)),
+    [activeStatus, sortedRequests],
+  );
+
   const handleCancelRequest = async (requestId) => {
     try {
       setCancellingRequestId(requestId);
@@ -258,14 +267,32 @@ export const UsersAllRequest = () => {
   return (
     <section className="min-h-[calc(100vh-120px)] bg-[#F8FAFC] px-3 py-3 sm:px-5 lg:px-6">
       <div className="mx-auto max-w-5xl space-y-3">
+        <div className="inline-flex rounded-xl border border-slate-200 bg-white p-1 shadow-sm">
+          <button
+            type="button"
+            onClick={() => setActiveStatus("in-progress")}
+            className={`inline-flex cursor-pointer items-center gap-1.5 rounded-lg px-3 py-2 text-xs font-black transition ${activeStatus === "in-progress" ? "bg-red-600 text-white shadow-sm" : "text-slate-500 hover:bg-red-50 hover:text-red-700"}`}
+          >
+            <Clock3 className="size-4" />
+            In Progress
+          </button>
+          <button
+            type="button"
+            onClick={() => setActiveStatus("completed")}
+            className={`inline-flex cursor-pointer items-center gap-1.5 rounded-lg px-3 py-2 text-xs font-black transition ${activeStatus === "completed" ? "bg-emerald-600 text-white shadow-sm" : "text-slate-500 hover:bg-emerald-50 hover:text-emerald-700"}`}
+          >
+            <CheckCircle2 className="size-4" />
+            Completed
+          </button>
+        </div>
         {error ? (
           <div className="rounded-2xl border border-red-100 bg-red-50 px-4 py-3 text-sm font-bold text-red-700">
             {error}
           </div>
         ) : null}
 
-        {sortedRequests.length ? (
-          sortedRequests.map((request) => (
+        {filteredRequests.length ? (
+          filteredRequests.map((request) => (
             <RequestCard
               key={request._id}
               request={request}
@@ -276,7 +303,7 @@ export const UsersAllRequest = () => {
         ) : (
           <div className="rounded-2xl border border-slate-200 bg-white px-6 py-12 text-center shadow-sm">
             <Droplet className="mx-auto size-10 text-slate-300" />
-            <h2 className="mt-3 text-base font-black text-slate-950">No blood requests yet</h2>
+            <h2 className="mt-3 text-base font-black text-slate-950">No {activeStatus === "completed" ? "completed" : "in-progress"} requests</h2>
             <p className="mt-1 text-sm font-semibold text-slate-500">Requests you submit from approved blood banks will appear here.</p>
             <Link to="/nearby-blood-banks" className="mt-4 inline-flex h-10 items-center justify-center rounded-lg bg-[#D90429] px-4 text-xs font-black text-white">
               Find Blood Banks

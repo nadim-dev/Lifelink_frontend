@@ -133,7 +133,7 @@ export const HospitalCapacityAvailability = () => {
             icon={BedDouble}
             label="ICU Beds"
             value={`${icu.occupied} / ${icu.total}`}
-            detail="Available / Total"
+           
             color="violet"
           />
           <SummaryCard

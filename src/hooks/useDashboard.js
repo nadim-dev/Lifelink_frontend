@@ -1,4 +1,4 @@
-import {Bell,CircleAlert,BedDouble,Stethoscope,Building2,BrainCircuit,Wallet,UsersRound,PackageCheck,Cross,Bike,CircleHelp,ClipboardList,Droplet,Droplets,Hospital,Inbox,LayoutDashboard,MessageSquareText,Settings,Siren,Ticket} from "lucide-react";
+import {Bell,CircleAlert, CalendarCheck,BedDouble,Stethoscope,Building2,BrainCircuit,Wallet,UsersRound,PackageCheck,Cross,Bike,CircleHelp,ClipboardList,Droplet,Droplets,Hospital,Inbox,LayoutDashboard,MessageSquareText,Settings,Siren,Ticket} from "lucide-react";
 import { useAuth } from "./useAuth";
 import { getDashboardPath } from "../utils/dashboardRoutes";
 import { CalendarDays } from "lucide-react";
@@ -11,10 +11,15 @@ const menuItems = [
     href: (user) => getDashboardPath(user.role),
   },
   {
-    title: "My Requests",
+    title: "Blood Request",
     icon: ClipboardList,
     href: "/my-requests",
   },
+  {
+  title: "My Appointments",
+  href: "/appointments",
+  icon: CalendarCheck
+},
   {
     title: "Nearby Donors",
     icon: UsersRound,

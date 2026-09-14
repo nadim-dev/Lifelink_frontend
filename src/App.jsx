@@ -51,6 +51,8 @@ import { HospitalProfile } from "./pages/Hospital/HospitalProfile.jsx";
 import { AdminDashbaordDetails } from "./pages/Admin/AdminDashbaord.jsx";
 import { HospitalDashboard } from "./pages/Hospital/HospitalDashbaord.jsx";
 import { HospitalCapacityAvailability } from "./pages/Hospital/HospitalCapacityAvailability.jsx";
+import { HospitalPageView } from "./pages/UserHospitalDashboard.jsx";
+import MyAppointments from "./pages/MyAppointments.jsx";
 
 
 function ProtectedLayout() {
@@ -137,6 +139,10 @@ const router=createBrowserRouter([
                 element:<UserDashBoard />,
              },
              {
+                path:"/appointments",
+                element:<MyAppointments />,
+             },
+             {
              path:"/become-donor",
              element:<BecomeDonor />
             },
@@ -199,6 +205,10 @@ const router=createBrowserRouter([
              {
                 path:"/hospital/dashboard",
                 element:<HospitalDashboard/>,
+             },
+             {
+               path:"/hospital/appointments",
+               element:<HospitalAppointments />
              },
              {
                 path:"/capacity-availability",
@@ -269,7 +279,7 @@ const router=createBrowserRouter([
              },
              {
                 path:"/hospitals/:hospitalId/dashboard",
-                element:<HospitalPublicDashboard />,
+                element:<HospitalPageView />,
              },
              {
                 path:"/nearby-blood-banks",

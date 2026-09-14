@@ -23,6 +23,10 @@ export const updateMyCapacityBed = (data) => axiosWithCreds.patch("/api/hospital
 
 export const getPublicHospitalById = (hospitalId) =>
   axiosWithCreds.get(`/api/hospitals/public/${hospitalId}`);
+export const getPublicHospitalDoctors = (hospitalId) =>
+  axiosWithCreds.get(`/api/hospitals/public/${hospitalId}/doctors`);
+export const getPublicHospitalServicesFacilities = (hospitalId) =>
+  axiosWithCreds.get(`/api/hospitals/public/${hospitalId}/services-facilities`);
 
 export const updateHospitalStatus = (hospitalId, accountStatus) =>
   axiosWithCreds.patch(`/api/hospitals/${hospitalId}/status`, {

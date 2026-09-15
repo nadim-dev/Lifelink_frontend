@@ -76,9 +76,9 @@ export default function DashboardLayout() {
         <Droplet className="size-5 fill-white text-white" />
       </span>
       <div>
-        <p className="text-base font-extrabold leading-5 text-zinc-950">BIT</p>
+        <p className="text-base font-extrabold leading-5 text-zinc-950">LIFELINK</p>
         <p className="text-[11px] font-semibold leading-4 text-zinc-500">
-          Blood In Time
+          Connecting Every Link in Healthcare
         </p>
       </div>
     </div>

@@ -21,8 +21,8 @@ export const getPublicBloodBank = (bloodBankId) =>
 export const createBloodRequest = (bloodBankId, data) =>
   axiosWithCreds.post(`/api/blood-banks/${bloodBankId}/requests`, data);
 
-export const getMyBloodRequests = () =>
-  axiosWithCreds.get("/api/blood-banks/requests/my");
+export const getMyBloodRequests = (params) =>
+  axiosWithCreds.get("/api/blood-banks/requests/my", { params });
 
 export const getMyBloodRequestTracking = (bloodRequestId) =>
   axiosWithCreds.get(`/api/blood-banks/requests/my/${bloodRequestId}/tracking`);

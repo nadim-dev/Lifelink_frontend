@@ -1,278 +1,57 @@
 import { useEffect, useState } from "react";
 import { Link, useOutletContext } from "react-router-dom";
-import {ArrowRight,BadgeCheck,CalendarDays,Droplet,Heart,Hospital,MapPin,ShieldCheck} from "lucide-react";
+import { ArrowRight, CalendarCheck, CalendarDays, Clock3, Building2, ClipboardList, Droplet, Hospital, LoaderCircle, Stethoscope, Ticket, UsersRound } from "lucide-react";
+import { GetMyAppointments } from "../api/appointmentApi.js";
+import { getMyBloodRequests } from "../api/bloodBankApi.js";
+import { getMyTicketsAll } from "../api/supportTicketApi.js";
 import BecomeDonorCta from "../components/BecomeDonorCta";
+import { formatDateOnly, formatTicketDate } from "../utils/dateCustomization.js";
 
-const nearbyBloodBanks = [
-  {
-    name: "City Blood Bank",
-    distance: "2.3 km away",
-    availability: "O+ 15 Units",
-  },
-  {
-    name: "Life Care Blood Bank",
-    distance: "3.1 km away",
-    availability: "O+ 8 Units",
-  },
-  {
-    name: "Hope Foundation Blood Bank",
-    distance: "4.7 km away",
-    availability: "O+ 12 Units",
-  },
-];
+const timeText = (value) =>
+  new Date(value).toLocaleTimeString("en-IN", {
+    hour: "numeric",
+    minute: "2-digit",
+  });
 
-const nearbyHospitals = [
+const healthcareOptions = [
   {
-    name: "Sunrise Multispeciality",
-    distance: "1.8 km away",
-    status: "Emergency Ready",
+    title: "Nearby Hospitals",
+    description: "Find hospitals around you",
+    to: "/nearby-hospitals",
+    icon: Building2,
+    cardClass: "border-sky-100 bg-sky-50/80",
+    iconClass: "bg-sky-100 text-sky-600",
+    arrowClass: "bg-sky-100 text-sky-600 group-hover:bg-sky-600 group-hover:text-white",
   },
   {
-    name: "Apex Care Hospital",
-    distance: "2.9 km away",
-    status: "Blood Support",
+    title: "Nearby Blood Banks",
+    description: "Locate blood banks near you",
+    to: "/nearby-blood-banks",
+    icon: Droplet,
+    cardClass: "border-rose-100 bg-rose-50/80",
+    iconClass: "bg-rose-100 text-rose-500",
+    arrowClass: "bg-rose-100 text-rose-500 group-hover:bg-rose-500 group-hover:text-white",
   },
   {
-    name: "Metro City Hospital",
-    distance: "4.2 km away",
-    status: "24/7 Open",
-  },
-];
-
-const donationFacts = [
-  {
-    title: "One donation can save up to three lives.",
-    note: "Be a part of something bigger.",
-  },
-  {
-    title: "Blood cannot be manufactured.",
-    note: "Every unit comes from a generous donor.",
-  },
-  {
-    title: "Regular donors help during emergencies.",
-    note: "Your consistency can keep care moving.",
+    title: "Nearby Donors",
+    description: "Find willing donors near you",
+    to: "/nearby-donors",
+    icon: UsersRound,
+    cardClass: "border-emerald-100 bg-emerald-50/80",
+    iconClass: "bg-emerald-100 text-emerald-600",
+    arrowClass: "bg-emerald-100 text-emerald-600 group-hover:bg-emerald-600 group-hover:text-white",
   },
 ];
-
-function NearbyResourceCard({
-  title,
-  viewAllLabel,
-  actionLabel,
-  actionHref,
-  items,
-  type,
-}) {
-  const isBloodBank = type === "bloodBank";
-  const Icon = isBloodBank ? Droplet : Hospital;
-  const itemTone = isBloodBank
-    ? "bg-red-100 text-red-600"
-    : "bg-blue-100 text-blue-600";
-  const badgeTone = isBloodBank
-    ? "bg-emerald-50 text-emerald-700"
-    : "bg-sky-50 text-sky-700";
-
-  return (
-    <div className="rounded-xl border border-zinc-100 bg-white p-5 shadow-sm">
-      <div className="flex items-center justify-between gap-3">
-        <h2 className="text-base font-extrabold text-zinc-950">{title}</h2>
-        <Link
-          to={actionHref}
-          className="text-xs font-extrabold text-[#fb2c36] transition hover:text-red-700"
-        >
-          {viewAllLabel}
-        </Link>
-      </div>
-
-      <div className="mt-5 space-y-4">
-        {items.map((item) => (
-          <div key={item.name} className="flex items-center gap-3">
-            <div
-              className={`grid h-11 w-11 shrink-0 place-items-center rounded-full ${itemTone}`}
-            >
-              <Icon className="h-5 w-5 fill-current" strokeWidth={2.4} />
-            </div>
-
-            <div className="min-w-0 flex-1">
-              <p className="truncate text-sm font-extrabold text-zinc-950">
-                {item.name}
-              </p>
-              <p className="mt-1 text-xs font-semibold text-zinc-500">
-                {item.distance}
-              </p>
-            </div>
-
-            <span
-              className={`shrink-0 rounded-full px-3 py-1.5 text-xs font-extrabold ${badgeTone}`}
-            >
-              {item.availability || item.status}
-            </span>
-          </div>
-        ))}
-      </div>
-
-      <Link
-        to={actionHref}
-        className="mt-5 flex h-12 items-center justify-center gap-2 rounded-lg border border-red-100 bg-red-50/45 px-4 text-sm font-extrabold text-[#fb2c36] transition hover:border-red-200 hover:bg-red-50"
-      >
-        {actionLabel}
-        <MapPin className="h-5 w-5" strokeWidth={2.5} />
-      </Link>
-    </div>
-  );
-}
-
-function DidYouKnowCard() {
-  const [activeFact, setActiveFact] = useState(0);
-  const [touchStart, setTouchStart] = useState(null);
-
-  const showFact = (direction) => {
-    setActiveFact((current) => {
-      if (direction === "next") {
-        return (current + 1) % donationFacts.length;
-      }
-
-      return (current - 1 + donationFacts.length) % donationFacts.length;
-    });
-  };
-
-  const handleTouchEnd = (event) => {
-    if (touchStart === null) return;
-
-    const touchEnd = event.changedTouches[0].clientX;
-    const swipeDistance = touchStart - touchEnd;
-
-    if (Math.abs(swipeDistance) > 36) {
-      showFact(swipeDistance > 0 ? "next" : "previous");
-    }
-
-    setTouchStart(null);
-  };
-
-  return (
-    <div className="mx-auto w-full max-w-[290px] xl:mx-0">
-      <div
-        className="overflow-hidden rounded-xl"
-        onTouchStart={(event) => setTouchStart(event.touches[0].clientX)}
-        onTouchEnd={handleTouchEnd}
-      >
-        <div
-          className="flex transition-transform duration-300 ease-out"
-          style={{ transform: `translateX(-${activeFact * 100}%)` }}
-        >
-          {donationFacts.map((fact) => (
-            <div
-              key={fact.title}
-              className="flex min-h-[278px] w-full shrink-0 touch-pan-y flex-col items-center rounded-xl border border-zinc-100 bg-white p-5 text-center shadow-sm"
-            >
-              <h2 className="text-sm font-extrabold text-zinc-950">
-                Did You Know?
-              </h2>
-
-              <div className="relative mt-5 grid h-24 w-28 place-items-center">
-                <div className="absolute bottom-2 left-2 h-12 w-5 rotate-[-18deg] rounded-full bg-red-100" />
-                <div className="absolute bottom-2 right-2 h-12 w-5 rotate-[18deg] rounded-full bg-red-100" />
-                <div className="absolute bottom-0 left-6 h-7 w-8 rounded-b-full rounded-t-sm bg-red-100" />
-                <div className="absolute bottom-0 right-6 h-7 w-8 rounded-b-full rounded-t-sm bg-red-100" />
-                <div className="absolute top-1 right-5">
-                  <Heart className="h-4 w-4 fill-[#fb2c36] text-[#fb2c36]" />
-                </div>
-                <div className="absolute top-8 right-3 h-1.5 w-1.5 rounded-full bg-red-100" />
-                <div className="absolute top-5 left-5 h-1.5 w-1.5 rounded-full bg-red-100" />
-                <div className="grid h-16 w-16 place-items-center rounded-full bg-[#fb2c36] text-white shadow-sm">
-                  <Droplet className="h-10 w-10 fill-current" strokeWidth={2.4} />
-                </div>
-              </div>
-
-              <p className="mt-5 max-w-[210px] text-sm font-extrabold leading-6 text-zinc-950">
-                {fact.title}
-              </p>
-              <p className="mt-4 text-xs font-semibold text-zinc-500">
-                {fact.note}
-              </p>
-
-              <div className="mt-auto flex items-center justify-center gap-2 pt-6">
-                {donationFacts.map((indicatorFact, index) => (
-                  <button
-                    key={indicatorFact.title}
-                    type="button"
-                    aria-label={`Show donation fact ${index + 1}`}
-                    onClick={() => setActiveFact(index)}
-                    className={`h-2 rounded-full transition-all ${
-                      index === activeFact
-                        ? "w-2 bg-[#fb2c36]"
-                        : "w-2 bg-zinc-200"
-                    }`}
-                  />
-                ))}
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function DashboardBottomStrip() {
- 
-  return (
-    <div className="grid gap-4 lg:grid-cols-[minmax(0,1.8fr)_minmax(280px,1fr)]">
-      <div className="flex min-h-[132px] items-center justify-between gap-4 rounded-lg border border-amber-100 bg-gradient-to-r from-amber-50 via-orange-50 to-white p-5 shadow-sm">
-        <div className="flex min-w-0 items-center gap-4">
-          <div className="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-[#fb2c36] text-white shadow-sm">
-            <BadgeCheck className="h-6 w-6" strokeWidth={2.5} />
-          </div>
-
-          <div className="min-w-0">
-            <h2 className="text-sm font-extrabold text-zinc-950">
-              Ready to make an impact?
-            </h2>
-            <p className="mt-2 text-xs font-semibold text-zinc-500">
-              It only takes a few minutes to become a donor.
-            </p>
-          </div>
-        </div>
-
-        <Link
-          to="/become-donor"
-          className="inline-flex h-11 shrink-0 items-center justify-center gap-2 rounded-md border border-[#fb2c36] bg-white px-5 text-xs font-extrabold text-[#fb2c36] transition hover:bg-red-50"
-        >
-          Become a Donor Now
-          <ArrowRight className="h-4 w-4" strokeWidth={2.6} />
-        </Link>
-      </div>
-
-      <div className="flex min-h-[132px] items-center justify-between gap-4 rounded-lg border border-sky-100 bg-sky-50/70 p-5 shadow-sm">
-        <div className="min-w-0">
-          <h2 className="text-sm font-extrabold text-zinc-950">
-            Stay Hydrated, Stay Healthy
-          </h2>
-          <p className="mt-2 max-w-[260px] text-xs font-semibold leading-5 text-zinc-600">
-            Drink plenty of water, eat nutritious food and stay healthy.
-          </p>
-        </div>
-
-        <div className="relative h-20 w-24 shrink-0">
-          <div className="absolute bottom-1 right-2 h-16 w-8 rounded-b-lg rounded-t-md border border-sky-200 bg-sky-200 shadow-sm">
-            <div className="h-3 rounded-t-md bg-sky-500" />
-            <div className="mx-auto mt-2 h-8 w-5 rounded bg-sky-100/80" />
-          </div>
-          <div className="absolute bottom-1 left-3 h-11 w-8 rounded-b-lg rounded-t-sm border border-sky-200 bg-sky-100">
-            <div className="mt-5 h-5 rounded-b-lg bg-sky-300" />
-          </div>
-          <div className="absolute bottom-1 left-11 h-9 w-6 rounded-b-md rounded-t-sm border border-sky-200 bg-white">
-            <div className="mt-4 h-4 rounded-b-md bg-sky-200" />
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
 
 export const UserDashBoard = () => {
   const { user,setHeaderContent} = useOutletContext();
-  const shouldShowDonorCta = !["Admin", "DeliveryPartner", "Hospital"].includes(user?.role);
+  const [upcomingAppointment, setUpcomingAppointment] = useState(null);
+  const [appointmentLoading, setAppointmentLoading] = useState(true);
+  const [activeBloodRequest, setActiveBloodRequest] = useState(null);
+  const [bloodRequestLoading, setBloodRequestLoading] = useState(true);
+  const [ticketStats, setTicketStats] = useState({ total: 0, open: 0, resolved: 0 });
+  console.log("user",user);
+  
 
   useEffect(() => {
     setHeaderContent({
@@ -281,104 +60,241 @@ export const UserDashBoard = () => {
     });
   }, [setHeaderContent]);
 
+  useEffect(() => {
+    const loadUpcomingAppointment = async () => {
+      try {
+        const response = await GetMyAppointments();
+        const appointments = response?.appointments || [];
+        const latestAppointment = [...appointments]
+          .sort((a, b) => new Date(a.appointmentStart) - new Date(b.appointmentStart))[0];
+        setUpcomingAppointment(latestAppointment || null);
+      } catch {
+        setUpcomingAppointment(null);
+      } finally {
+        setAppointmentLoading(false);
+      }
+    };
 
-  const dashboardHeaderCards = [
-    {
-      label: "Blood Group",
-      value: user.bloodGroup || "O+",
-      note: "Positive",
-      icon: Droplet,
-      wrapperClass: "border-red-100 bg-red-50/70",
-      iconClass: "bg-red-100 text-red-600",
-      labelClass: "text-red-600",
-      valueClass: "text-red-600",
-    },
-    {
-      label: "Donor Status",
-      value: user.isDonor ? "Available Donor" : "Not a Donor Yet",
-      note: user.isDonor ? "Ready to help nearby" : "Join our community",
-      icon: ShieldCheck,
-      wrapperClass: "border-blue-100 bg-blue-50/80",
-      iconClass: "bg-blue-100 text-blue-600",
-      labelClass: "text-blue-900",
-      valueClass: "text-blue-700",
-    },
-    {
-      label: "Become a Donor",
-      value: "Save Lives",
-      note: "Complete your profile in a few steps",
-      icon: BadgeCheck,
-      wrapperClass: "border-emerald-100 bg-emerald-50/75",
-      iconClass: "bg-emerald-100 text-emerald-600",
-      labelClass: "text-zinc-700",
-      valueClass: "text-emerald-700",
-    },
-    {
-      label: "Nearby Hospitals",
-      value: "12 Nearby",
-      note: "Hospitals ready to help you",
-      icon: CalendarDays,
-      wrapperClass: "border-purple-100 bg-purple-50/75",
-      iconClass: "bg-purple-100 text-purple-600",
-      labelClass: "text-purple-900",
-      valueClass: "text-purple-700",
-    },
-  ];
+    loadUpcomingAppointment();
+  }, []);
+
+  useEffect(() => {
+    const loadTicketStats = async () => {
+      try {
+        const response = await getMyTicketsAll();
+        const tickets = response?.tickets || [];
+        setTicketStats({
+          total: tickets.length,
+          open: tickets.filter((ticket) => ticket.status === "Open").length,
+          resolved: tickets.filter((ticket) => ticket.status === "Resolved").length,
+        });
+      } catch {
+        setTicketStats({ total: 0, open: 0, resolved: 0 });
+      }
+    };
+
+    loadTicketStats();
+  }, []);
+
+  useEffect(() => {
+    const loadActiveBloodRequest = async () => {
+      try {
+        const response = await getMyBloodRequests({ active: true });
+        const requests = response?.bloodRequests || [];
+        setActiveBloodRequest(requests[0] || null);
+      } catch {
+        setActiveBloodRequest(null);
+      } finally {
+        setBloodRequestLoading(false);
+      }
+    };
+
+    loadActiveBloodRequest();
+  }, []);
+
+
+
 
   return (
     <div className="space-y-4 py-4">
-      <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-        {dashboardHeaderCards.map((card) => {
-          const Icon = card.icon;
-
-          return (
-            <div
-              key={card.label}
-              className={`flex min-h-[126px] items-center gap-4 rounded-lg border p-5 shadow-sm ${card.wrapperClass}`}
-            >
-              <div className={`grid h-12 w-12 shrink-0 place-items-center rounded-full ${card.iconClass}`}>
-                <Icon className="h-6 w-6" strokeWidth={2.6} />
-              </div>
-
-              <div className="min-w-0">
-                <p className={`text-xs font-bold ${card.labelClass}`}>
-                  {card.label}
-                </p>
-                <p className={`mt-2 text-2xl font-extrabold leading-tight ${card.valueClass}`}>
-                  {card.value}
-                </p>
-                <p className="mt-2 text-xs font-semibold leading-snug text-zinc-700">
-                  {card.note}
-                </p>
-              </div>
+      <div className="grid gap-3 sm:grid-cols-3">
+        <Link to="/appointments" className="group relative min-h-[150px] rounded-xl border border-slate-100 bg-white p-4 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md">
+          <div className="flex items-start gap-3">
+            <span className="grid size-12 place-items-center rounded-xl bg-rose-50 text-rose-600"><CalendarCheck className="size-6" /></span>
+            <div>
+              <p className="text-base font-bold leading-tight text-slate-600">Upcoming<br />Appointment</p>
+              <p className="mt-1 text-3xl font-black text-slate-950">{appointmentLoading ? "—" : upcomingAppointment ? 1 : 0}</p>
+              <p className="mt-1 text-xs font-semibold text-slate-500">{upcomingAppointment ? `Next: ${timeText(upcomingAppointment.appointmentStart)}` : "No upcoming appointments"}</p>
             </div>
-          );
-        })}
+            <span className="absolute bottom-4 right-4 grid size-9 place-items-center rounded-full bg-rose-50 text-rose-500 transition group-hover:bg-rose-600 group-hover:text-white"><ArrowRight className="size-4" /></span>
+          </div>
+        </Link>
+
+        <Link to="/my-requests" className="group relative min-h-[150px] rounded-xl border border-slate-100 bg-white p-4 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md">
+          <div className="flex items-start gap-3">
+            <span className="grid size-12 place-items-center rounded-xl bg-rose-50 text-rose-600"><Droplet className="size-6" fill="currentColor" /></span>
+            <div>
+              <p className="text-base font-bold leading-tight text-slate-600">Active<br />Blood Request</p>
+              <p className="mt-1 text-3xl font-black text-slate-950">{bloodRequestLoading ? "—" : activeBloodRequest ? 1 : 0}</p>
+              <p className="mt-1 text-xs font-semibold text-slate-500">{activeBloodRequest ? "In Progress" : "No active requests"}</p>
+            </div>
+            <span className="absolute bottom-4 right-4 grid size-9 place-items-center rounded-full bg-rose-50 text-rose-500 transition group-hover:bg-rose-600 group-hover:text-white"><ArrowRight className="size-4" /></span>
+          </div>
+        </Link>
+
+        <Link to="/my-tickets" className="group relative min-h-[150px] rounded-xl border border-slate-100 bg-white p-4 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md">
+          <div className="flex items-start gap-3">
+            <span className="grid size-12 place-items-center rounded-xl bg-blue-50 text-blue-600"><Ticket className="size-6" /></span>
+            <div>
+              <p className="text-base font-bold text-slate-600">My Tickets</p>
+              <p className="mt-1 text-3xl font-black text-slate-950">{ticketStats.total}</p>
+              <p className="mt-1 text-xs font-semibold text-slate-500">{ticketStats.open} Open • {ticketStats.resolved} Resolved</p>
+            </div>
+            <span className="absolute bottom-4 right-4 grid size-9 place-items-center rounded-full bg-rose-50 text-rose-500 transition group-hover:bg-rose-600 group-hover:text-white"><ArrowRight className="size-4" /></span>
+          </div>
+        </Link>
       </div>
 
-      {shouldShowDonorCta ? <BecomeDonorCta /> : null}
+      <div className="grid gap-4 lg:grid-cols-2">
+        <section className="h-full rounded-xl border border-slate-100 bg-white p-3 shadow-sm sm:p-4">
+        <div className="mb-2 flex items-center justify-between px-1">
+          <h2 className="text-base font-extrabold text-slate-800">Upcoming Appointment</h2>
+          <Link to="/appointments" className="text-[10px] font-bold text-rose-500 transition hover:text-rose-600 sm:text-xs">
+            View All <span aria-hidden="true">→</span>
+          </Link>
+        </div>
 
-      <div className="grid gap-4 xl:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_290px]">
-        <NearbyResourceCard
-          title="Nearby Blood Banks"
-          viewAllLabel="View All"
-          actionLabel="View All Blood Banks"
-          actionHref="/nearby-blood-banks"
-          items={nearbyBloodBanks}
-          type="bloodBank"
-        />
-        <NearbyResourceCard
-          title="Nearby Hospitals"
-          viewAllLabel="View All"
-          actionLabel="View All Hospitals"
-          actionHref="/nearby-hospitals"
-          items={nearbyHospitals}
-          type="hospital"
-        />
-        <DidYouKnowCard />
+        {appointmentLoading ? (
+          <div className="flex items-center justify-center py-8 text-xs font-bold text-slate-500">
+            <LoaderCircle className="mr-2 size-4 animate-spin" /> Loading appointment...
+          </div>
+        ) : upcomingAppointment ? (
+          <article className="rounded-lg border border-slate-200 bg-white p-3">
+            <div className="flex items-start justify-between gap-3">
+              <div className="flex min-w-0 items-center gap-2.5">
+                {upcomingAppointment.doctorId?.profileImage ? (
+                  <img
+                    src={upcomingAppointment.doctorId.profileImage}
+                    alt={`${upcomingAppointment.doctorId?.name || "Doctor"} profile`}
+                    className="size-11 shrink-0 rounded-full border border-white object-cover shadow-sm"
+                  />
+                ) : (
+                  <span className="grid size-11 shrink-0 place-items-center rounded-full bg-blue-50 text-blue-500">
+                    <Stethoscope className="size-5" />
+                  </span>
+                )}
+                <div className="min-w-0">
+                  <h3 className="truncate text-base font-extrabold text-slate-900">
+                    Dr. {upcomingAppointment.doctorId?.name || "Doctor"}
+                  </h3>
+                  <p className="mt-0.5 flex items-center gap-1 text-xs font-semibold text-slate-500">
+                    <Stethoscope className="size-3.5 text-blue-500" />
+                    {upcomingAppointment.doctorId?.specialization || upcomingAppointment.doctorId?.department || "Medical consultation"}
+                  </p>
+                </div>
+              </div>
+              <span className="shrink-0 rounded-full bg-emerald-100 px-2.5 py-1 text-[10px] font-extrabold capitalize text-emerald-700">
+                {upcomingAppointment.status}
+              </span>
+            </div>
+
+            <div className="mt-3 grid grid-cols-2 gap-2 border-t border-slate-100 pt-3 text-xs font-bold text-slate-600">
+              <span className="flex items-center gap-1.5"><CalendarCheck className="size-3.5 text-blue-500" />{formatDateOnly(upcomingAppointment.appointmentStart)}</span>
+              <span className="flex items-center gap-1.5"><Clock3 className="size-3.5 text-blue-500" />{timeText(upcomingAppointment.appointmentStart)}</span>
+              <span className="col-span-2 flex items-center gap-1.5 truncate"><Hospital className="size-3.5 shrink-0 text-rose-500" />{upcomingAppointment.hospitalId?.name || "Hospital"}</span>
+            </div>
+
+            <div className="mt-3 flex items-center justify-between gap-2 border-t border-slate-100 pt-3">
+              <p className="text-xs font-extrabold text-slate-500">Appointment Number <span className="text-slate-900">{upcomingAppointment.tokenNumber}</span></p>
+              <Link to="/appointments" className="inline-flex items-center gap-1 rounded-md bg-rose-600 px-3 py-1.5 text-xs font-extrabold text-white transition hover:bg-rose-700">
+                View Appointment <ArrowRight className="size-3" />
+              </Link>
+            </div>
+          </article>
+        ) : (
+          <p className="rounded-lg bg-slate-50 px-3 py-6 text-center text-xs font-semibold text-slate-500">No upcoming appointments.</p>
+        )}
+        </section>
+
+        <section className="h-full rounded-xl border border-slate-100 bg-white p-3 shadow-sm sm:p-4">
+        <div className="mb-2 flex items-center justify-between px-1">
+          <h2 className="text-base font-extrabold text-slate-800">Active Blood Request</h2>
+          <Link to="/my-requests" className="text-[10px] font-bold text-rose-500 transition hover:text-rose-600 sm:text-xs">
+            View All <span aria-hidden="true">→</span>
+          </Link>
+        </div>
+
+        {bloodRequestLoading ? (
+          <div className="flex items-center justify-center py-8 text-xs font-bold text-slate-500">
+            <LoaderCircle className="mr-2 size-4 animate-spin" /> Loading request...
+          </div>
+        ) : activeBloodRequest ? (
+          <article className="rounded-lg border border-slate-200 bg-white p-3">
+            <div className="flex items-start justify-between gap-3">
+              <div className="flex min-w-0 items-center gap-2.5">
+                <span className="grid size-10 shrink-0 place-items-center rounded-lg bg-red-50 text-red-500">
+                  <Droplet className="size-5" fill="currentColor" />
+                </span>
+                <div className="min-w-0">
+                  <h3 className="text-base font-extrabold text-slate-900">
+                    {activeBloodRequest.items?.[0]?.bloodGroup || "Blood"} <span className="text-slate-500">·</span> {activeBloodRequest.items?.[0]?.component || "Blood component"}
+                  </h3>
+                  <p className="text-xs font-semibold text-slate-500">{activeBloodRequest.items?.[0]?.quantity || 0} Unit</p>
+                </div>
+              </div>
+              <span className="shrink-0 rounded-full bg-amber-100 px-2.5 py-1 text-[10px] font-extrabold text-amber-700">
+                {activeBloodRequest.requestStatus === "Pending" ? "In Progress" : activeBloodRequest.requestStatus}
+              </span>
+            </div>
+
+            <div className="mt-3 grid gap-2 border-t border-slate-100 pt-3 text-xs font-bold text-slate-600">
+              <span className="flex min-w-0 items-center gap-1.5"><Building2 className="size-3.5 shrink-0 text-blue-500" /><span className="truncate">Requested from: <strong className="text-slate-800">{activeBloodRequest.bloodBankId?.bloodBankName || "Blood Bank"}</strong></span></span>
+              <span className="flex items-center gap-1.5"><CalendarDays className="size-3.5 text-emerald-500" />Request Date: {formatTicketDate(activeBloodRequest.createdAt)}</span>
+              <span className="flex items-center gap-1.5"><ClipboardList className="size-3.5 text-violet-500" />Request ID: {activeBloodRequest.requestNumber || activeBloodRequest._id}</span>
+            </div>
+
+            <div className="mt-3 flex justify-end border-t border-slate-100 pt-3">
+              <Link to={`/my-requests/${activeBloodRequest._id}`} className="inline-flex items-center gap-1 rounded-md bg-red-600 px-3 py-1.5 text-xs font-extrabold text-white transition hover:bg-red-700">
+                Track Request <ArrowRight className="size-3" />
+              </Link>
+            </div>
+          </article>
+        ) : (
+          <p className="rounded-lg bg-slate-50 px-3 py-6 text-center text-xs font-semibold text-slate-500">No active blood requests.</p>
+        )}
+        </section>
       </div>
 
-      <DashboardBottomStrip />
+      {!user.isDonor && <BecomeDonorCta />}
+
+      <section className="rounded-xl border border-slate-100 bg-white p-3 shadow-sm sm:p-4">
+        <div className="mb-2 flex items-center justify-between px-1">
+          <h2 className="text-sm font-extrabold text-slate-800 sm:text-base">Find Healthcare Near You</h2>
+         
+        </div>
+
+        <div className="grid gap-2 sm:grid-cols-3">
+          {healthcareOptions.map(({ title, description, to, icon: Icon, cardClass, iconClass, arrowClass }) => (
+            <Link
+              key={title}
+              to={to}
+              className={`group flex min-h-[72px] items-center gap-2 rounded-lg border px-3 py-2.5 transition hover:-translate-y-0.5 hover:shadow-sm ${cardClass}`}
+            >
+              <span className={`grid h-9 w-9 shrink-0 place-items-center rounded-lg ${iconClass}`}>
+                <Icon className="h-5 w-5" strokeWidth={2.2} />
+              </span>
+              <span className="min-w-0 flex-1">
+                <span className="block text-xs font-extrabold text-slate-800 sm:text-sm">{title}</span>
+                <span className="mt-0.5 block text-[11px] font-medium leading-tight text-slate-500 sm:text-xs">{description}</span>
+              </span>
+              <span className={`grid h-6 w-6 shrink-0 place-items-center rounded-full transition ${arrowClass}`}>
+                <ArrowRight className="h-3.5 w-3.5" strokeWidth={2.8} />
+              </span>
+            </Link>
+          ))}
+        </div>
+      </section>
+
     </div>
   );
 };

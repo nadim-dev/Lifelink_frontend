@@ -7,7 +7,6 @@ import { Loader } from "./components/Loader";
 import { useAuth } from "./hooks/useAuth";
 import { getDashboardPath } from "./utils/dashboardRoutes";
 import DashboardLayout from "./layouts/DashboardLayout";
-import DashboardPlaceholder from "./pages/DashboardPlaceholder";
 import { BecomeDonor } from "./pages/BecomeDonor";
 import { ContactUs } from "./pages/ContactUs";
 import CreateSupportTicket from "./pages/CreateSupportTicket";
@@ -234,10 +233,6 @@ const router=createBrowserRouter([
                 element:<DeliveryRequest/>
              },
              {
-                path:"/blood-bank/inventory",
-                element:<DashboardPlaceholder title="Inventory" description="Update blood stock, component availability, and processing details from here." />,
-             },
-             {
                 path:"/blood-bank/ai-demand-prediction",
                 element:<AIdemandPrediction/>
              },
@@ -265,10 +260,7 @@ const router=createBrowserRouter([
                path:"/admin/tickets/:ticketId",
                element:<AdminTicketDetailsPage />
              },
-             {
-                path:"/emergency",
-                element:<DashboardPlaceholder title="Emergency Help" description="Request urgent blood support and track emergency actions from here." />,
-             },
+             
              {
                 path:"/my-requests",
                 element:<UsersAllRequest/>,

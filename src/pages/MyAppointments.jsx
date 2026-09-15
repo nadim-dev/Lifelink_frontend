@@ -86,43 +86,56 @@ export default function MyAppointments() {
             You have no current upcoming appointments.
           </div>
         )}
-        <div className="grid gap-3 md:grid-cols-2">
+        <div className="grid gap-4">
           {appointments.map((appointment) => (
             <article
               key={appointment._id}
-              className="rounded-xl border border-slate-200 bg-white p-4 shadow-[0_5px_20px_rgba(15,23,42,0.04)]"
+              className="rounded-2xl border border-slate-200 bg-white px-5 py-5 shadow-[0_5px_20px_rgba(15,23,42,0.04)] sm:px-6 sm:py-6"
             >
               <div className="flex items-start justify-between gap-3">
-                <div>
-                  <h2 className="text-base font-extrabold text-slate-950">
-                    Dr. {appointment.doctorId?.name || "Doctor"}
-                  </h2>
-                  <p className="mt-1 flex items-center gap-1.5 text-xs font-semibold text-slate-500">
-                    <Stethoscope className="size-4 text-blue-500" />
-                    {appointment.doctorId?.specialization ||
-                      appointment.doctorId?.department ||
-                      "Medical consultation"}
-                  </p>
+                <div className="flex min-w-0 items-center gap-3">
+                  {appointment.doctorId?.profileImage ? (
+                    <img
+                      src={appointment.doctorId.profileImage}
+                      alt={`${appointment.doctorId?.name || "Doctor"} profile`}
+                      className="size-14 shrink-0 rounded-full border border-slate-100 object-cover sm:size-16"
+                    />
+                  ) : (
+                    <span className="grid size-14 shrink-0 place-items-center rounded-full bg-blue-50 text-blue-500 sm:size-16">
+                      <Stethoscope className="size-7" />
+                    </span>
+                  )}
+                  <div className="min-w-0">
+                    <h2 className="text-xl font-extrabold text-slate-950 sm:text-2xl">
+                      Dr. {appointment.doctorId?.name || "Doctor"}
+                    </h2>
+                    <p className="mt-1.5 flex items-center gap-2 text-base font-semibold text-slate-500">
+                      <Stethoscope className="size-5 shrink-0 text-blue-500" />
+                      {appointment.doctorId?.specialization ||
+                        appointment.doctorId?.department ||
+                        "Medical consultation"}
+                    </p>
+                  </div>
                 </div>
-                <span className="rounded-full bg-emerald-50 px-2.5 py-1 text-[11px] font-extrabold capitalize text-emerald-700">
+                <span className="rounded-full bg-emerald-50 px-4 py-2 text-sm font-extrabold capitalize text-emerald-700">
                   {appointment.status}
                 </span>
               </div>
-              <div className="mt-4 grid gap-2 border-t border-slate-100 pt-3 text-sm font-bold text-slate-600 sm:grid-cols-2">
-                <p className="flex items-center gap-2">
-                  <CalendarCheck className="size-4 text-blue-500" />
+              <div className="mt-5 grid gap-3 border-t border-slate-100 pt-5 text-lg font-bold text-slate-600 sm:grid-cols-2">
+                <p className="flex items-center gap-2.5">
+                  <CalendarCheck className="size-5 text-blue-500" />
                   {formatDateOnly(appointment.appointmentStart)}
                 </p>
-                <p className="flex items-center gap-2">
-                  <Clock3 className="size-4 text-blue-500" />
+                <p className="flex items-center gap-2.5">
+                  <Clock3 className="size-5 text-blue-500" />
                   {timeText(appointment.appointmentStart)}
                 </p>
-                <p className="flex items-center gap-2 sm:col-span-2">
-                  <Hospital className="size-4 text-rose-500" />
+                <p className="flex items-center gap-2.5 sm:col-span-2">
+                  <Hospital className="size-5 text-rose-500" />
                   {appointment.hospitalId?.name || "Hospital"}
                 </p>
               </div>
-              <p className="mt-3 text-xs font-extrabold text-slate-500">
+              <p className="mt-5 text-base font-extrabold text-slate-500">
                 Appointment Number:{" "}
                 <span className="text-slate-900">
                   {appointment.tokenNumber}

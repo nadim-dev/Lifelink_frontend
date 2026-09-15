@@ -301,13 +301,10 @@ export const UsersAllRequest = () => {
             />
           ))
         ) : (
-          <div className="rounded-2xl border border-slate-200 bg-white px-6 py-12 text-center shadow-sm">
-            <Droplet className="mx-auto size-10 text-slate-300" />
-            <h2 className="mt-3 text-base font-black text-slate-950">No {activeStatus === "completed" ? "completed" : "in-progress"} requests</h2>
-            <p className="mt-1 text-sm font-semibold text-slate-500">Requests you submit from approved blood banks will appear here.</p>
-            <Link to="/nearby-blood-banks" className="mt-4 inline-flex h-10 items-center justify-center rounded-lg bg-[#D90429] px-4 text-xs font-black text-white">
-              Find Blood Banks
-            </Link>
+          <div className="rounded-2xl border border-slate-200 bg-white px-6 py-12 text-center shadow-[0_8px_24px_rgba(15,23,42,0.04)]">
+            <span className="mx-auto grid size-14 place-items-center rounded-2xl bg-red-50 text-red-300"><Droplet className="size-8" /></span>
+            <h2 className="mt-4 text-base font-black text-slate-950">No {activeStatus === "completed" ? "completed" : "in-progress"} requests</h2>
+            <p className="mx-auto mt-1 max-w-md text-sm font-semibold text-slate-500">Your blood requests and their delivery updates will appear here.</p>
           </div>
         )}
       </div>

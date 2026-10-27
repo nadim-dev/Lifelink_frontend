@@ -100,7 +100,7 @@ const validate=(formData)=>{
                 </div>
                 <div>
                   <div className="text-lg font-bold leading-6 tracking-tight text-zinc-950">
-                    BloodConnect
+                    LifeLink
                   </div>
                   <div className="text-sm leading-5 text-[#71717b]">
                     Saving Lives Together
@@ -116,7 +116,7 @@ const validate=(formData)=>{
                     </span>
                   </h1>
                   <p className="max-w-[320px] text-sm leading-6 text-[#71717b]">
-                    Create your BloodConnect account and become part of a
+                    Create your LifeLink account and become part of a
                     trusted network of blood donors and recipients.
                   </p>
                 </div>
@@ -184,7 +184,7 @@ const validate=(formData)=>{
                     Create Your Account
                   </h2>
                   <p className="mt-1 text-sm leading-5 text-[#71717b]">
-                    Create your BloodConnect account in less than a minute.
+                    Create your LifeLink account in less than a minute.
                   </p>
                 </div>
                 <form className="mt-3 space-y-2" onSubmit={(e)=>{handleSubmit(e)}}>

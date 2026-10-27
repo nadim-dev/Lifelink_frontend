@@ -202,7 +202,7 @@ export const DeliveryPartnerRegisteration = () => {
         <aside className="fixed inset-y-0 left-0 z-10 hidden w-[380px] overflow-hidden bg-[#fff5f6] lg:block xl:w-[400px]">
           <img
             src={deliveryPartnerImage}
-            alt="BloodConnect delivery partner registration"
+            alt="LifeLink delivery partner registration"
             className="h-full w-full object-cover object-left-top"
           />
         </aside>
@@ -212,7 +212,7 @@ export const DeliveryPartnerRegisteration = () => {
             <div className="mb-6 lg:hidden">
               <img
                 src={deliveryPartnerImage}
-                alt="BloodConnect delivery partner registration"
+                alt="LifeLink delivery partner registration"
                 className="max-h-72 w-full rounded-xl bg-[#fff5f6] object-contain object-top"
               />
             </div>

@@ -243,7 +243,7 @@ export const BloodbankRegisteration = () => {
         <aside className="fixed inset-y-0 left-0 z-10 hidden w-[380px] overflow-hidden bg-[#fff5f6] lg:block xl:w-[400px]">
           <img
             src={bloodBankRegistrationImage}
-            alt="BloodConnect blood bank registration illustration"
+            alt="LifeLink blood bank registration illustration"
             className="h-full w-full object-cover object-left-top"
           />
         </aside>
@@ -253,7 +253,7 @@ export const BloodbankRegisteration = () => {
             <div className="mb-6 lg:hidden">
               <img
                 src={bloodBankRegistrationImage}
-                alt="BloodConnect blood bank registration illustration"
+                alt="LifeLink blood bank registration illustration"
                 className="max-h-72 w-full rounded-xl bg-[#fff5f6] object-contain object-top"
               />
             </div>

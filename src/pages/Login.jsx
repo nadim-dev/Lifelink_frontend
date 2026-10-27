@@ -119,7 +119,7 @@ export function Login() {
                 </div>
                 <div>
                   <div className="text-lg font-bold leading-6 tracking-tight text-zinc-950">
-                    BloodConnect
+                    LifeLink
                   </div>
                   <div className="text-sm leading-5 text-[#71717b]">
                     Saving Lives Together
@@ -136,7 +136,7 @@ export function Login() {
                   </h1>
                   <p className="max-w-[320px] text-sm leading-6 text-[#71717b]">
                     Sign in to manage requests, connect with donors, and keep
-                    your BloodConnect account active.
+                    your LifeLink account active.
                   </p>
                 </div>
                 <div className="relative mt-3 overflow-hidden rounded-[22px] border border-zinc-200 bg-white p-2 shadow-[0_12px_40px_rgba(0,0,0,0.06)]">
@@ -203,7 +203,7 @@ export function Login() {
                     Sign In
                   </h2>
                   <p className="mt-1 text-sm leading-5 text-[#71717b]">
-                    Access your BloodConnect account.
+                    Access your LifeLink account.
                   </p>
                 </div>
                 <form className="mt-3 space-y-2" onSubmit={handleSubmit}>

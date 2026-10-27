@@ -69,7 +69,7 @@ export const ForgotPassPage = () => {
                 </div>
                 <div>
                   <div className="text-lg font-bold leading-6 tracking-tight text-zinc-950">
-                    BloodConnect
+                    LifeLink
                   </div>
                   <div className="text-sm leading-5 text-[#71717b]">
                     Saving Lives Together
@@ -86,7 +86,7 @@ export const ForgotPassPage = () => {
                     </span>
                   </h1>
                   <p className="max-w-[320px] text-sm leading-6 text-[#71717b]">
-                    Reset your BloodConnect password and get back to managing requests, donors, and urgent support.
+                    Reset your LifeLink password and get back to managing requests, donors, and urgent support.
                   </p>
                 </div>
                 <div className="relative mt-3 overflow-hidden rounded-[22px] border border-zinc-200 bg-white p-2 shadow-[0_12px_40px_rgba(0,0,0,0.06)]">

@@ -78,7 +78,7 @@ export const ResetPasswordPage = () => {
                   <HeartPulse className="size-5" />
                 </div>
                 <div>
-                  <div className="text-lg font-bold leading-6 tracking-tight text-zinc-950">BloodConnect</div>
+                  <div className="text-lg font-bold leading-6 tracking-tight text-zinc-950">LifeLink</div>
                   <div className="text-sm leading-5 text-[#71717b]">Saving Lives Together</div>
                 </div>
               </div>
@@ -90,7 +90,7 @@ export const ResetPasswordPage = () => {
                     <span className="block text-[#fb2c36]">Secure Your Access.</span>
                   </h1>
                   <p className="max-w-[320px] text-sm leading-6 text-[#71717b]">
-                    Choose a fresh password and return to your BloodConnect account safely.
+                    Choose a fresh password and return to your LifeLink account safely.
                   </p>
                 </div>
                 <div className="relative mt-3 overflow-hidden rounded-[22px] border border-zinc-200 bg-white p-2 shadow-[0_12px_40px_rgba(0,0,0,0.06)]">

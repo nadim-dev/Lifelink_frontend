@@ -5,10 +5,10 @@ import logo from "../assets/image.png";
 
 export default function Sidebar({user,passUserMenu = [] }) {
   return (
-    <aside className="hidden w-[238px] shrink-0 bg-[linear-gradient(180deg,#8f0000_0%,#b80d12_48%,#860000_100%)] p-3 text-white lg:flex lg:flex-col">
+    <aside className="hidden w-[238px] shrink-0 bg-[linear-gradient(180deg,#14243b_0%,#101c30_48%,#0b1424_100%)] p-3 text-white lg:flex lg:flex-col">
       <div className="flex items-center gap-2 px-1 py-2">
         
-        <img className="w-8 h-8" src={logo} />
+        <img className="size-10 shrink-0 object-contain" src={logo} alt="LifeLink logo" />
          
         <div>
           <p className="text-xl font-extrabold leading-6 tracking-tight">LIFELINK</p>
@@ -75,8 +75,12 @@ export default function Sidebar({user,passUserMenu = [] }) {
             {user?.picture ? <img
               src={user.picture || "https://i.pravatar.cc/96?img=12"}
               alt={user.username}
-              className="size-10 rounded-xl border-2 border-white/70 object-cover"
-            /> : getInitials(user.username)}
+              className="size-10 rounded-full border-2 border-white/30 object-cover"
+            /> : (
+              <span className="flex size-10 shrink-0 items-center justify-center rounded-full border border-white/20 bg-white/10 text-sm font-semibold tracking-wide text-white">
+                {getInitials(user?.username || "User")}
+              </span>
+            )}
             <div className="min-w-0 flex-1">
               <p className="truncate text-sm font-bold">{user.username}</p>
               <p className="mt-0.5 text-xs font-medium text-white/75">

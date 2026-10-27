@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { ArrowLeft, ArrowRight, Droplets, Heart, HeartPulse, Hospital, Mail, Quote, Send, ShieldCheck, Users } from "lucide-react";
 import { Link } from "react-router-dom";
 import { forgotPasswordApi } from "../api/authApi";
+import bloodIllustration from "../assets/blood.png";
 
 export const ForgotPassPage = () => {
   const [email, setEmail] = useState("");
@@ -92,7 +93,7 @@ export const ForgotPassPage = () => {
                   <img
                     alt="Blood donation illustration"
                     className="h-56 w-full rounded-[18px] object-cover"
-                    src="./src/assets/blood.png"
+                    src={bloodIllustration}
                   />
                 </div>
                 <div className="mt-3 grid grid-cols-3 gap-2">

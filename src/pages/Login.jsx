@@ -7,6 +7,7 @@ import { getDashboardPath } from "../utils/dashboardRoutes";
 import { GoogleLogin } from "@react-oauth/google";
 import { loginWithGoogle } from "../api/authApi";
 import { Link } from "react-router-dom";
+import bloodIllustration from "../assets/blood.png";
 
 
 export function Login() {
@@ -142,7 +143,7 @@ export function Login() {
                   <img
                     alt="Blood donation illustration"
                     className="h-56 w-full rounded-[18px] object-cover"
-                    src="./src/assets/blood.png"
+                    src={bloodIllustration}
                   />
                 </div>
                 <div className="mt-3 grid grid-cols-3 gap-2">

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { ArrowLeft, ArrowRight, Droplets, Eye, Heart, HeartPulse, Hospital, Lock, Quote, ShieldCheck, Users } from "lucide-react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { resetPasswordApi } from "../api/authApi";
+import bloodIllustration from "../assets/blood.png";
 
 export const ResetPasswordPage = () => {
   const { token } = useParams();
@@ -96,7 +97,7 @@ export const ResetPasswordPage = () => {
                   <img
                     alt="Blood donation illustration"
                     className="h-56 w-full rounded-[18px] object-cover"
-                    src="./src/assets/blood.png"
+                    src={bloodIllustration}
                   />
                 </div>
                 <div className="mt-3 grid grid-cols-3 gap-2">

@@ -3,6 +3,7 @@ import { useState } from "react";
 import { registerApi } from "../api/authApi";
 import { useNavigate } from "react-router-dom";
 import { GoogleLogin } from "@react-oauth/google";
+import bloodIllustration from "../assets/blood.png";
 
 export default function Register() {
    const navigate=useNavigate();
@@ -123,7 +124,7 @@ const validate=(formData)=>{
                   <img
                     alt="Blood donation illustration"
                     className="h-56 w-full rounded-[18px] object-cover"
-                    src="./src/assets/blood.png"
+                    src={bloodIllustration}
                   />
                 </div>
                 <div className="mt-3 grid grid-cols-3 gap-2">

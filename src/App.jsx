@@ -25,7 +25,7 @@ import { AdminBloodBanks } from "./pages/Admin/AdminBloodBanks.jsx";
 import { BloodBankDetails } from "./pages/Admin/AdminBloodBankDetails.jsx";
 import { BloodBankPublicDashboard } from "./pages/BloodBankPublicDashboard.jsx";
 import { UsersAllRequest } from "./pages/UserRequest.jsx";
-import { BloodBankDashbaord } from "./pages/Blood_Bank/BloodbankDashboard.jsx";
+import { BloodBankDashbaord } from "./pages/Blood_Bank/BloodBankDashboard.jsx";
 import { BloodBankProfile } from "./pages/Blood_Bank/BloodBankProfile.jsx";
 import { BloodBankInventory } from "./pages/Blood_Bank/Inventory.jsx";
 import { RequestToBloodBank } from "./pages/Blood_Bank/RequestToBloodBank.jsx";

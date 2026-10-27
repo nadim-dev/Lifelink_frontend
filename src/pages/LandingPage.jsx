@@ -32,7 +32,7 @@ const testimonials = [
     name: "Rohit S.",
     role: "Patient",
     quote:
-      '"BIT helped me find O+ blood in just 15 minutes. The delivery was super fast. Thank you!"',
+      '"Lifelink helped me find O+ blood in just 15 minutes. The delivery was super fast. Thank you!"',
     imageAlt: "Rohit",
     imageSrc:
       "https://images.unsplash.com/photo-1527980965255-d3b416303d12?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3ODc2NDd8MHwxfHNlYXJjaHwxfHxtYW4lMjBwcm9mZXNzaW9uYWwlMjBwb3J0cmFpdCUyMHNtaWxpbmd8ZW58MXwyfHx8MTc4NDY2MDkxN3ww&ixlib=rb-4.1.0&q=80&w=400",
@@ -50,7 +50,7 @@ const testimonials = [
     name: "New Life Blood Bank",
     role: "Blood Bank",
     quote:
-      '"BIT connects us with people in need quickly. It\'s a wonderful platform for everyone."',
+      '"Lifelink connects us with people in need quickly. It\'s a wonderful platform for everyone."',
     imageAlt: "Blood bank staff",
     imageSrc:
       "https://images.unsplash.com/photo-1643297654416-05795d62e39c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3ODc2NDd8MHwxfHNlYXJjaHwxfHxkb2N0b3IlMjB3b21hbiUyMHNtaWxpbmclMjBwb3J0cmFpdHxlbnwxfDJ8fHwxNzg0NjYwOTE2fDA&ixlib=rb-4.1.0&q=80&w=400",
@@ -68,7 +68,7 @@ const testimonials = [
     name: "City Care Hospital",
     role: "Hospital",
     quote:
-      '"Managing urgent blood needs is simpler now. BIT helps our team coordinate with donors in minutes."',
+      '"Managing urgent blood needs is simpler now. Lifelink helps our team coordinate with donors in minutes."',
     imageAlt: "Hospital staff",
     imageSrc:
       "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=400",
@@ -77,29 +77,29 @@ const testimonials = [
 
 const faqs = [
   {
-    question: "What is BIT?",
+    question: "What is Lifelink?",
     answer:
-      "BIT, Blood In Time, is a smart platform that connects patients, donors, blood banks and delivery partners during urgent blood needs. It helps people find the right blood group faster and coordinate support from one place.",
+      "Lifelink, Blood In Time, is a smart platform that connects patients, donors, blood banks and delivery partners during urgent blood needs. It helps people find the right blood group faster and coordinate support from one place.",
   },
   {
-    question: "How does BIT work?",
+    question: "How does Lifelink work?",
     answer:
       "BIT first checks nearby blood banks for available stock. If the required blood is not available, it can recommend eligible nearby donors and help users continue the request quickly.",
   },
   {
     question: "Is blood availability updated in real time?",
     answer:
-      "Yes. BIT is designed to show real-time blood stock from partnered blood banks, so patients and hospitals can make faster decisions during emergencies.",
+      "Yes. Lifelink is designed to show real-time blood stock from partnered blood banks, so patients and hospitals can make faster decisions during emergencies.",
   },
   {
     question: "Can I track my blood delivery?",
     answer:
-      "Yes. After a request is confirmed, BIT can help track delivery progress so users know when the blood is on the way and when it is expected to arrive.",
+      "Yes. After a request is confirmed, Lifelink can help track delivery progress so users know when the blood is on the way and when it is expected to arrive.",
   },
   {
     question: "Is my personal information secure?",
     answer:
-      "Yes. BIT is built with security in mind, using protected account access and industry-standard practices to keep personal details, contact information and request history safe.",
+      "Yes. Lifelink is built with security in mind, using protected account access and industry-standard practices to keep personal details, contact information and request history safe.",
   },
 ];
 
@@ -145,7 +145,7 @@ export default function LandingPage() {
               </div>
               <div className="leading-none flex flex-col">
                 <span className="font-extrabold text-xl leading-7 tracking-tight">
-                  BIT
+                  Lifelink
                 </span>
                 <span className="font-medium text-[#71717b] text-[10px]">
                   Blood In Time

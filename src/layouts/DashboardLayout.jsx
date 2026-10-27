@@ -43,7 +43,7 @@ export default function DashboardLayout() {
       return;
     }
 
-    const socket = io(import.meta.env.VITE_API_URL, {
+    const socket = io(import.meta.env.VITE_BACKEND_URL || "http://localhost:4000", {
       withCredentials: true,
       transports: ["websocket"],
     });
